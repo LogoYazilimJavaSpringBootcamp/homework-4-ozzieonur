@@ -24,6 +24,7 @@ public class Account {
     private String accountNumber;
     private String iban;
     private CurrencyType currencyType;
-    private int balance;
+    private Double balance;
+
 
 }

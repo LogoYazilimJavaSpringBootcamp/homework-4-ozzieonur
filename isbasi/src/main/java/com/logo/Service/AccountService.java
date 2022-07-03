@@ -1,7 +1,10 @@
 package com.logo.Service;
 
 import com.logo.Model.Account;
-import com.logo.Repository.AccountRepository;
+import com.logo.Repository.AccountHibernateRepository;
+import com.logo.Repository.AccountJdbcRepository;
+import com.logo.Repository.AccountJdbcTemplateRepository;
+import com.logo.Repository.AccountJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,35 +14,52 @@ import java.util.List;
 public class AccountService {
 
     @Autowired
-    AccountRepository accountRepository;
+    AccountHibernateRepository accountHibernateRepository; // Hibernate
+
+    @Autowired
+    AccountJdbcRepository accountJdbcRepository; // JDBC
+
+    @Autowired
+    AccountJdbcTemplateRepository accountJdbcTemplateRepository; // JdbcTemplate
 
     public Account createAccount(Account accountRequest) {
-        return accountRepository.save(accountRequest);
+       // return accountHibernateRepository.save(accountRequest); // HIBERNATE
+
+       // return accountJdbcRepository.save(accountRequest); // JDBC
+
+        return accountJdbcTemplateRepository.save(accountRequest); //JdbcTemplate
     }
 
     public List<Account> getAllAcounts() {
-        return accountRepository.findAll();
+       // return accountHibernateRepository.findAll(); // HIBERNATE
+
+         return accountJdbcRepository.findAll(); // JDBC
+
+       // return accountJdbcTemplateRepository.findAll(); //JdbcTemplate
     }
 
     public Account getAccountById(int id) {
-        return accountRepository.findById(id).orElseThrow();
+        return accountHibernateRepository.findById(id); // HIBERNATE
+
+       // return accountJdbcRepository.findById(id); // JDBC
+
+       // return accountJdbcTemplateRepository.findById(id); //JdbcTemplate
     }
 
     public Account updateAccount(int id, Account accountRequest) {
-        Account foundAccount = accountRepository.findById(id).orElseThrow();
+        // return accountHibernateRepository.update(id,accountRequest); // HIBERNATE
 
-        foundAccount.setAccountName(accountRequest.getAccountName());
-        foundAccount.setAccountNumber(accountRequest.getAccountNumber());
-        foundAccount.setCurrencyType(accountRequest.getCurrencyType());
-        foundAccount.setIban(accountRequest.getIban());
-        foundAccount.setBalance(accountRequest.getBalance());
+        // return accountJdbcTemplateRepository.update(id, accountRequest); // JDBC
 
-        return accountRepository.save(foundAccount);
+        return accountJdbcTemplateRepository.update(id,accountRequest); //JdbcTemplate
+
     }
 
     public String deleteAccount(int id) {
-        accountRepository.deleteById(id);
+       // return accountHibernateRepository.deleteById(id); // HIBERNATE
 
-        return id + " id'li account silindi.";
+       // return accountJdbcRepository.deleteById(id); // JDBC
+
+        return accountJdbcTemplateRepository.deleteById(id); //JdbcTemplate
     }
 }

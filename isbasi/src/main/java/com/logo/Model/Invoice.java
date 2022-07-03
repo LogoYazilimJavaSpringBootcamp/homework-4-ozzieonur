@@ -35,7 +35,7 @@ public class Invoice {
     private String comment;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "Invoice")
+    @OneToMany(mappedBy = "invoice")
     private Set<InvoiceProducts> invoiceProducts;
 
 
